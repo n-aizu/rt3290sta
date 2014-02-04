@@ -4,9 +4,16 @@ PHONY := clean install uninstall
 
 clean:
 	rm -f ../../common/*.o
-	rm -f ../../common/.*.{cmd,flags,d}
-	rm -f ../../os/linux/*.{o,ko,mod.{o,c}}
-	rm -f ../../os/linux/.*.{cmd,flags,d}
+	rm -f ../../common/.*.cmd
+	rm -f ../../common/.*.flags
+	rm -f ../../common/.*.d
+	rm -f ../../os/linux/*.o
+	rm -f ../../os/linux/*.ko
+	rm -f ../../os/linux/*.mod.o
+	rm -f ../../os/linux/*.mod.c
+	rm -f ../../os/linux/.*.cmd
+	rm -f ../../os/linux/.*.flags
+	rm -f ../../os/linux/.*.d
 	rm -fr ../../os/linux/.tmp_versions
 #Must clean Module.symvers; or you will suffer symbol version not match
 #when OS_ABL = YES.
@@ -15,30 +22,34 @@ clean:
 	rm -f ../../os/linux/Module.markers
 	rm -f ../../os/linux/modules.order
 	rm -f ../../chips/*.o
-	rm -f ../../chips/.*.{cmd,flags,d}
+	rm -f ../../chips/.*.cmd
+	rm -f ../../chips/.*.flags
+	rm -f ../../chips/.*.d
 	rm -f ../../rate_ctrl/*.o
-	rm -f ../../rate_ctrl/.*.{cmd,flags,d}
-	rm -f ../../ate/common/*.o
-	rm -f ../../ate/common/.*.{cmd,flags,d}
-	rm -f ../../ate/chips/*.o
-	rm -f ../../ate/chips/.*.{cmd,flags,d}
+	rm -f ../../rate_ctrl/.*.cmd
+	rm -f ../../rate_ctrl/.*.flags
+	rm -f ../../rate_ctrl/.*.d
 ifeq ($(RT28xx_MODE),AP)
 	rm -f ../../ap/*.o
-	rm -f ../../ap/.*.{cmd,flags,d}
+	rm -f ../../ap/.*.cmd
+	rm -f ../../ap/.*.flags
+	rm -f ../../ap/.*.d
 else
 ifeq ($(RT28xx_MODE),STA)
 	rm -f ../../sta/*.o
-	rm -f ../../sta/.*.{cmd,flags,d}
-ifeq ($(HAS_P2P_SUPPORT),y)
-	rm -f ../../ap/*.o
-	rm -f ../../ap/.*.{cmd,flags,d}
-endif
+	rm -f ../../sta/.*.cmd
+	rm -f ../../sta/.*.flags
+	rm -f ../../sta/.*.d
 else
 ifeq ($(RT28xx_MODE),APSTA)
 	rm -f ../../ap/*.o
-	rm -f ../../ap/.*.{cmd,flags,d}
+	rm -f ../../ap/.*.cmd
+	rm -f ../../ap/.*.flags
+	rm -f ../../ap/.*.d
 	rm -f ../../sta/*.o
-	rm -f ../../sta/.*.{cmd,flags,d}
+	rm -f ../../sta/.*.cmd
+	rm -f ../../sta/.*.flags
+	rm -f ../../sta/.*.d
 endif
 endif
 endif
