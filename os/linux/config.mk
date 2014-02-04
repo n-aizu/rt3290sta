@@ -768,7 +768,7 @@ endif
 # move to Makefile outside LINUX_SRC := /opt/star/kernel/linux-2.4.27-star
 
 ifeq ($(PLATFORM),IMX6)
-ccflags-y = -I$(RT28xx_DIR)/include -DLINUX -Wno-declaration-after-statement $(WFLAGS)
+ccflags-y = -I$(RT28xx_DIR)/include -DLINUX -DMONITOR_FLAG_11N_SNIFFER_SUPPORT -Wno-declaration-after-statement $(WFLAGS)
 endif
 
 ifeq ($(PLATFORM),RALINK_3052)
