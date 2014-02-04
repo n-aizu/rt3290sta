@@ -338,9 +338,9 @@ static INT __devinit   rt2860_probe(
 	}
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,5,0)
-	print_name = pci_name(pci_dev);
+	print_name = (PSTRING)pci_name(pci_dev);
 #else
-	print_name = pci_dev->slot_name;
+	print_name = (PSTRING)pci_dev->slot_name;
 #endif /* LINUX_VERSION_CODE */
 
 	if ((rv = pci_request_regions(pci_dev, print_name)) != 0)

@@ -2242,7 +2242,6 @@ VOID RT28xxPciMlmeRadioOn(
 	IN PRTMP_ADAPTER pAd)
 {    
 
-	BOOLEAN				Cancelled;
 #ifdef RT3290
 	BOOLEAN CmdStatus;
 	UINT RetryRound;

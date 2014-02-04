@@ -159,7 +159,7 @@ int rt28xx_init(
 	{
 		PLL_CTRL_STRUC PllCtrl;
 		RTMP_IO_READ32(pAd, PLL_CTRL, &PllCtrl.word);
-		DBGPRINT(RT_DEBUG_OFF,("PllCtrl:0x%x\n",PllCtrl.word));
+		DBGPRINT(RT_DEBUG_OFF,("PllCtrl:%#lx\n",PllCtrl.word));
 		PllCtrl.field.VCO_FIXED_CURRENT_CONTROL = 0x1;			
 		RTMP_IO_WRITE32(pAd, PLL_CTRL, PllCtrl.word);
 	}

@@ -1029,8 +1029,7 @@ VOID PeerPairMsg3Action(
 	UINT            	MsgLen;				
 	PUINT8				pCurrentAddr = NULL;
 	UCHAR				group_cipher = Ndis802_11WEPDisabled;
-	BOOLEAN				Cancelled;
-	   
+  
 	DBGPRINT(RT_DEBUG_TRACE, ("===> PeerPairMsg3Action \n"));
 	
 	if ((!pEntry) || (!IS_ENTRY_CLIENT(pEntry) && !IS_ENTRY_APCLI(pEntry)))

@@ -767,6 +767,10 @@ endif
 #kernel build options for 2.4
 # move to Makefile outside LINUX_SRC := /opt/star/kernel/linux-2.4.27-star
 
+ifeq ($(PLATFORM),IMX6)
+ccflags-y = -I$(RT28xx_DIR)/include -DLINUX -Wno-declaration-after-statement $(WFLAGS)
+endif
+
 ifeq ($(PLATFORM),RALINK_3052)
 CFLAGS := -D__KERNEL__ -I$(LINUX_SRC)/include/asm-mips/mach-generic -I$(LINUX_SRC)/include -I$(RT28xx_DIR)/include -Wall -Wstrict-prototypes -Wno-trigraphs -O2 -fno-strict-aliasing -fno-common -fomit-frame-pointer -G 0 -mno-abicalls -fno-pic -pipe  -finline-limit=100000 -march=mips2 -mabi=32 -Wa,--trap -DLINUX -nostdinc -iwithprefix include $(WFLAGS)
 export CFLAGS

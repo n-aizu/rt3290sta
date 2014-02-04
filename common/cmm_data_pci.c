@@ -540,7 +540,6 @@ BOOLEAN  RTMPFreeTXDUponTxDmaDone(
 	TXD_STRUC	TxD, *pOriTxD;
 	/*ULONG		IrqFlags;*/
 	BOOLEAN			bReschedule = FALSE;
-	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
 
 	ASSERT(QueIdx < NUM_OF_TX_RING);
@@ -735,7 +734,6 @@ VOID	RTMPHandleMgmtRingDmaDoneInterrupt(
 /*	int 		 i;*/
 	UCHAR	FREE = 0;
 	PRTMP_MGMT_RING pMgmtRing = &pAd->MgmtRing;
-	UINT8 TXWISize = pAd->chipCap.TXWISize;
 
 	NdisAcquireSpinLock(&pAd->MgmtRingLock);
 
@@ -759,8 +757,6 @@ VOID	RTMPHandleMgmtRingDmaDoneInterrupt(
 			INC_RING_INDEX(pMgmtRing->TxSwFreeIdx, MGMT_RING_SIZE);
 			continue;
 		}
-
-#define LMR_FRAME_GET()	(GET_OS_PKT_DATAPTR(pPacket) + TXWISize)
 
 #ifdef UAPSD_SUPPORT
 #endif /* UAPSD_SUPPORT */

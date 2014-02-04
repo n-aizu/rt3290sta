@@ -1346,7 +1346,7 @@ VOID RTMPInitPCIeDevice(
 	VOID *pci_dev = pConfig->pPciDev;
 	USHORT  device_id;
 	POS_COOKIE pObj;
-	UINT32 MacCsr0 = 0, Index= 0;
+	UINT32 MacCsr0 = 0;
 	UINT32 reg = MAC_CSR0;
 	pObj = (POS_COOKIE) pAd->OS_Cookie;
 	pci_read_config_word(pci_dev, pConfig->ConfigDeviceID, &device_id);

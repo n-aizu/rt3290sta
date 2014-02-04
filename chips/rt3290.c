@@ -1561,7 +1561,8 @@ VOID RT3290_AsicTxAlcGetAutoAgcOffset(
 					TuningTableIndex = UPPERBOUND_TX_POWER_TUNING_ENTRY(pAd);
 				}
 				/* Valide pAd->TxPowerCtrl.idxTxPowerTable: -30 ~ 69 */
-				pTxPowerTuningEntry = &(TxPowerTuningTable[TuningTableIndex + TX_POWER_TUNING_ENTRY_OFFSET]);
+				pTxPowerTuningEntry = 
+					(PTX_POWER_TUNING_ENTRY_STRUCT)&(TxPowerTuningTable[TuningTableIndex + TX_POWER_TUNING_ENTRY_OFFSET]);
 
 				pAd->TxPowerCtrl.RF_TX_ALC = pTxPowerTuningEntry->RF_TX_ALC;
 				pAd->TxPowerCtrl.MAC_PowerDelta = pTxPowerTuningEntry->MAC_PowerDelta;
@@ -2486,7 +2487,7 @@ VOID MlmeAntSelection(
 			static	ULONG			AvgTxErrorRatio = 5;
 			
 
-			DBGPRINT(RT_DEBUG_TRACE,("AntS: AvgTxErrorRatio = %d , TxErrorRatio = %d, AccuTxTotalCnt = %d, Rssi = %d\n",AvgTxErrorRatio, TxErrorRatio, AccuTxTotalCnt, Rssi));
+			DBGPRINT(RT_DEBUG_TRACE,("AntS: AvgTxErrorRatio = %lu , TxErrorRatio = %lu, AccuTxTotalCnt = %lu, Rssi = %d\n",AvgTxErrorRatio, TxErrorRatio, AccuTxTotalCnt, Rssi));
 
 			if(pAd->AntennaDiversityInfo.RateUp)
 			{
@@ -2504,7 +2505,7 @@ VOID MlmeAntSelection(
 			// trainning phase
 			if ((pAd->AntennaDiversityInfo.AntennaDiversityState == 1) && (pAd->AntennaDiversityInfo.AntennaDiversityCount < ANTENNA_TRAINNING_ROUNDS))
 			{
-				DBGPRINT(RT_DEBUG_TRACE, ("AntS: Train State: AntennaDiversityCount = %d\n", pAd->AntennaDiversityInfo.AntennaDiversityCount));
+				DBGPRINT(RT_DEBUG_TRACE, ("AntS: Train State: AntennaDiversityCount = %lu\n", pAd->AntennaDiversityInfo.AntennaDiversityCount));
 
 				
 				//Sum total Tx-Success packet
@@ -2519,13 +2520,13 @@ VOID MlmeAntSelection(
 				//pAd->Rssi[pAd->WlanFunCtrl.field.INV_TR_SW0] += pAd->StaCfg.AvgRssi0;
 				//pAd->Rssi[pAd->WlanFunCtrl.field.INV_TR_SW0] /= 2;
 			
-				DBGPRINT(RT_DEBUG_TRACE,("AntS, Ant 0, Tx: %d, Rx: %d\n",pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[0],pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[0]));
-				DBGPRINT(RT_DEBUG_TRACE,("AntS, Ant 1, Tx: %d, Rx: %d\n",pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[1],pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[1]));
+				DBGPRINT(RT_DEBUG_TRACE,("AntS, Ant 0, Tx: %lu, Rx: %lu\n",pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[0],pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[0]));
+				DBGPRINT(RT_DEBUG_TRACE,("AntS, Ant 1, Tx: %lu, Rx: %lu\n",pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[1],pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[1]));
 
 				DBGPRINT(RT_DEBUG_TRACE,("AntS, current antenna = %d\n",pAd->WlanFunCtrl.field.INV_TR_SW0));
-				DBGPRINT(RT_DEBUG_TRACE,("AntS: Train State: PER[Main] = %d, PER[Aux] = %d\n",pAd->AntennaDiversityInfo.AntennaDiversityPER[0],pAd->AntennaDiversityInfo.AntennaDiversityPER[1])); 
-				DBGPRINT(RT_DEBUG_TRACE,("AntS: TotalTxCount[Main] = %d, TotalTxCount[Aux] = %d\n",pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[0],pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[1])); 
-				DBGPRINT(RT_DEBUG_TRACE,("AntS: TotalRxCount[Main] = %d, TotalRxCount[Aux] = %d\n",pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[0],pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[1])); 
+				DBGPRINT(RT_DEBUG_TRACE,("AntS: Train State: PER[Main] = %lu, PER[Aux] = %lu\n",pAd->AntennaDiversityInfo.AntennaDiversityPER[0],pAd->AntennaDiversityInfo.AntennaDiversityPER[1])); 
+				DBGPRINT(RT_DEBUG_TRACE,("AntS: TotalTxCount[Main] = %lu, TotalTxCount[Aux] = %lu\n",pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[0],pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[1])); 
+				DBGPRINT(RT_DEBUG_TRACE,("AntS: TotalRxCount[Main] = %lu, TotalRxCount[Aux] = %lu\n",pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[0],pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[1])); 
 
 				if (pAd->AntennaDiversityInfo.AntennaDiversityCount == 0)
 				{
@@ -2542,7 +2543,7 @@ VOID MlmeAntSelection(
 
 					Ant1TotalPacket += pAd->StaCfg.AntSAuxDelta;
 
-					DBGPRINT(RT_DEBUG_TRACE,("AntS: AntSAuxDelta = %d, AntSRssiFactor = %d, AntSPERFactor = %d\n",
+					DBGPRINT(RT_DEBUG_TRACE,("AntS: AntSAuxDelta = %lu, AntSRssiFactor = %lu, AntSPERFactor = %lu\n",
 							pAd->StaCfg.AntSAuxDelta,
 							pAd->StaCfg.AntSRssiFactor,
 							pAd->StaCfg.AntSPERFactor)); 
@@ -2556,13 +2557,13 @@ VOID MlmeAntSelection(
 								diffRssi = pAd->AntennaDiversityInfo.Rssi[0] - pAd->AntennaDiversityInfo.Rssi[1];
 								Ant0TotalPacket +=  (diffRssi*Ant0TotalPacket/pAd->StaCfg.AntSRssiFactor);
 					
-								DBGPRINT(RT_DEBUG_TRACE,("AntS: Good Rssi is at Main !! ++%d\n",(diffRssi*Ant0TotalPacket/pAd->StaCfg.AntSRssiFactor))); 
+								DBGPRINT(RT_DEBUG_TRACE,("AntS: Good Rssi is at Main !! ++%lu\n",(diffRssi*Ant0TotalPacket/pAd->StaCfg.AntSRssiFactor))); 
 							}
 							else
 							{
 								diffRssi = pAd->AntennaDiversityInfo.Rssi[1] - pAd->AntennaDiversityInfo.Rssi[0];
 								Ant1TotalPacket +=  (diffRssi*Ant1TotalPacket/pAd->StaCfg.AntSRssiFactor);
-								DBGPRINT(RT_DEBUG_TRACE,("AntS: Good Rssi is at Aux !!++%d\n",(diffRssi*Ant1TotalPacket/pAd->StaCfg.AntSRssiFactor))); 
+								DBGPRINT(RT_DEBUG_TRACE,("AntS: Good Rssi is at Aux !!++%lu\n",(diffRssi*Ant1TotalPacket/pAd->StaCfg.AntSRssiFactor))); 
 							}
 						}
 
@@ -2571,16 +2572,16 @@ VOID MlmeAntSelection(
 							diffPER = (CHAR)(pAd->AntennaDiversityInfo.AntennaDiversityPER[1] - pAd->AntennaDiversityInfo.AntennaDiversityPER[0]);
 							Ant0TotalPacket +=  (diffPER*Ant0TotalPacket/pAd->StaCfg.AntSPERFactor);
 				
-							DBGPRINT(RT_DEBUG_TRACE,("AntS: Good PER is at Main !! ++%d\n", (diffPER*Ant0TotalPacket/pAd->StaCfg.AntSPERFactor))); 
+							DBGPRINT(RT_DEBUG_TRACE,("AntS: Good PER is at Main !! ++%lu\n", (diffPER*Ant0TotalPacket/pAd->StaCfg.AntSPERFactor))); 
 						}
 						else
 						{
 							diffPER = (CHAR)(pAd->AntennaDiversityInfo.AntennaDiversityPER[0] - pAd->AntennaDiversityInfo.AntennaDiversityPER[1]);
 							Ant1TotalPacket +=  (diffPER*Ant1TotalPacket/pAd->StaCfg.AntSPERFactor);
 				
-							DBGPRINT(RT_DEBUG_TRACE,("AntS: Good PER is at Aux !! ++%d\n", (diffPER*Ant1TotalPacket/pAd->StaCfg.AntSPERFactor))); 
+							DBGPRINT(RT_DEBUG_TRACE,("AntS: Good PER is at Aux !! ++%lu\n", (diffPER*Ant1TotalPacket/pAd->StaCfg.AntSPERFactor))); 
 						}						
-						DBGPRINT(RT_DEBUG_TRACE,("AntS: Delta Packet = %d,%d, diffRssi = %d, diffPER = %d\n",(diffRssi*Ant0TotalPacket/pAd->StaCfg.AntSRssiFactor),(diffPER*Ant1TotalPacket/pAd->StaCfg.AntSPERFactor),diffRssi, diffPER)); 
+						DBGPRINT(RT_DEBUG_TRACE,("AntS: Delta Packet = %lu,%lu, diffRssi = %d, diffPER = %d\n",(diffRssi*Ant0TotalPacket/pAd->StaCfg.AntSRssiFactor),(diffPER*Ant1TotalPacket/pAd->StaCfg.AntSPERFactor),diffRssi, diffPER)); 
 					}
 					AsicSetRxAnt(pAd, (Ant0TotalPacket > Ant1TotalPacket)?(0):(1));
 					
@@ -2592,10 +2593,10 @@ VOID MlmeAntSelection(
 					{
 					}
 					
-					DBGPRINT(RT_DEBUG_TRACE,("AntS: Stop Train State: PER[Main] = %d, PER[Aux] = %d\n",pAd->AntennaDiversityInfo.AntennaDiversityPER[0],pAd->AntennaDiversityInfo.AntennaDiversityPER[1])); 
-					DBGPRINT(RT_DEBUG_TRACE,("AntS: TotalTxCount[Main] = %d, TotalTxCount[Aux] = %d\n",pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[0],pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[1])); 
-					DBGPRINT(RT_DEBUG_TRACE,("AntS: TotalRxCount[Main] = %d, TotalRxCount[Aux] = %d\n",pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[0],pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[1])); 
-					DBGPRINT(RT_DEBUG_TRACE,("AntS: Select Ant = %d, Main=%d, Aux=%d\n",(Ant0TotalPacket > Ant1TotalPacket)?(0):(1), Ant0TotalPacket,Ant1TotalPacket)); 
+					DBGPRINT(RT_DEBUG_TRACE,("AntS: Stop Train State: PER[Main] = %lu, PER[Aux] = %lu\n",pAd->AntennaDiversityInfo.AntennaDiversityPER[0],pAd->AntennaDiversityInfo.AntennaDiversityPER[1])); 
+					DBGPRINT(RT_DEBUG_TRACE,("AntS: TotalTxCount[Main] = %lu, TotalTxCount[Aux] = %lu\n",pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[0],pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[1])); 
+					DBGPRINT(RT_DEBUG_TRACE,("AntS: TotalRxCount[Main] = %lu, TotalRxCount[Aux] = %lu\n",pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[0],pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[1])); 
+					DBGPRINT(RT_DEBUG_TRACE,("AntS: Select Ant = %d, Main=%u, Aux=%d\n",(Ant0TotalPacket > Ant1TotalPacket)?(0):(1), Ant0TotalPacket,Ant1TotalPacket)); 
 					
 					pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[0] = pAd->AntennaDiversityInfo.AntennaDiversityTxPacketCount[1] = 0;
 					pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[0] = pAd->AntennaDiversityInfo.AntennaDiversityRxPacketCount[1] = 0;
@@ -3241,7 +3242,7 @@ VOID BtCoexSetting(
 				(pAd->CmbCtrl.field.AUX_OPT_Bit15_Two_AntennaMode == TRUE))		
 		{
 			ULONG CoexMode = wlanFunInfo.field.COEX_MODE;
-			DBGPRINT(RT_DEBUG_TRACE, ("%s:COEX_MODE is active(Two Antenna Mode)!!! CoexMode = %d, BBPCurrentBW = %d, Rssi = %d, RfR49Value = 0x%x\n", 
+			DBGPRINT(RT_DEBUG_TRACE, ("%s:COEX_MODE is active(Two Antenna Mode)!!! CoexMode = %lu, BBPCurrentBW = %d, Rssi = %d, RfR49Value = 0x%x\n", 
 				__FUNCTION__,
 				CoexMode,
 				pAd->CommonCfg.BBPCurrentBW,
@@ -4094,7 +4095,7 @@ VOID Profile_TwoAnt(
 		cmbCtrl.word |= (0x9000);
 		RTMP_IO_FORCE_WRITE32(pAd, CMB_CTRL, cmbCtrl.word);
 	}
-	printk("cmbCtrl = %x\n",cmbCtrl);
+	printk("cmbCtrl = %x\n",cmbCtrl.word);
 	
 	// Overwrite default Coex Parameter
 	RTMP_IO_FORCE_READ32(pAd, COEXCFG0, &MACValue);

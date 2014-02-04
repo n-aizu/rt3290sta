@@ -31,7 +31,8 @@ include $(RT28xx_DIR)/os/linux/config.mk
 RTMP_SRC_DIR = $(RT28xx_DIR)/RT$(MODULE)
 
 #PLATFORM: Target platform
-PLATFORM = PC
+PLATFORM := IMX6
+#PLATFORM = PC
 #PLATFORM = 5VT
 #PLATFORM = IKANOS_V160
 #PLATFORM = IKANOS_V180
@@ -101,6 +102,14 @@ ifeq ($(TARGET), ECOS)
 MAKE = make
 MODULE = $(shell pwd | sed "s/.*\///" ).o
 export MODULE
+endif
+
+ifeq ($(PLATFORM),IMX6)
+# Warning: must enable CONFIG_WEXT_PRIV on kernel source(e.g. enable CONFIG_WEXT_PRIV)
+
+LINUX_SRC := /home/`whoami`/linux-imx6
+CROSS_COMPILE := arm-linux-gnueabihf-
+KERN_VER := 3.10.17
 endif
 
 ifeq ($(PLATFORM),5VT)
@@ -392,7 +401,11 @@ else
 ifeq ($(PLATFORM),FREESCALE8377)
 	$(MAKE) ARCH=powerpc CROSS_COMPILE=$(CROSS_COMPILE) -C  $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
 else
+ifeq ($(PLATFORM),IMX6)
+	$(MAKE) ARCH=arm -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
+else
 	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
+endif
 endif
 endif
 

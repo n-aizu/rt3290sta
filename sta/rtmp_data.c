@@ -279,8 +279,6 @@ VOID STAHandleRxDataFrame(
 	MAC_TABLE_ENTRY *pEntry = NULL;
 	UCHAR FromWhichBSSID = BSS0;
 	UCHAR UserPriority = 0;
-	UCHAR OldPwrMgmt = PWR_ACTIVE;
-	FRAME_CONTROL *pFmeCtrl = &pHeader->FC;
 
 	if ((pHeader->FC.FrDs == 1) && (pHeader->FC.ToDs == 1)) {
 #ifdef CLIENT_WDS

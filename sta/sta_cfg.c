@@ -7217,7 +7217,7 @@ RtmpIoctl_rt_private_get_statistics(
 	}
 
 #if defined(BT_COEXISTENCE_SUPPORT) || defined(RT3290)
-sprintf(extra+strlen(extra), "pAd->NicConfig3.field.CoexAnt == 0x%x\n\n",pAd->NicConfig3);
+sprintf(extra+strlen(extra), "pAd->NicConfig3.field.CoexAnt == 0x%x\n\n",(unsigned int)pAd->NicConfig3.word);
 if (pAd->NicConfig3.field.CoexAnt == TRUE)
 sprintf(extra+strlen(extra), "pAd->NicConfig3.field.CoexAnt == TRUE\n\n");
 else

@@ -454,17 +454,6 @@ INT RtmpAsicSendCommandToMcu(
 	INT i = 0;
 	int ret;
 
-
-#ifdef RTMP_MAC_PCI
-#endif /* RTMP_MAC_PCI */
-
-#ifdef CONFIG_STA_SUPPORT
-#ifdef PCIE_PS_SUPPORT
-	ULONG	Configuration;
-	ULONG	offset;
-#endif /* PCIE_PS_SUPPORT */
-#endif /* CONFIG_STA_SUPPORT */
-
 #ifdef CONFIG_STA_SUPPORT
 #ifdef PCIE_PS_SUPPORT
 
