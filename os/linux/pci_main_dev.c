@@ -28,12 +28,15 @@
 
 #define RTMP_MODULE_OS
 
-/*#include "rt_config.h" */
+#include "rt_config.h"
 #include "rtmp_comm.h"
 #include "rt_os_util.h"
 #include "rt_os_net.h"
 #include <linux/pci.h>
 #include <linux/version.h>
+#ifdef REQUEST_FIRMWARE
+#include <linux/firmware.h>
+#endif /* REQUEST_FIRMWARE */
 
 /* */
 /* Function declarations */
@@ -533,6 +536,34 @@ static VOID __devexit rt2860_remove_one(
 	RtmpOSNetDevFree(net_dev);
 }
  
+#ifdef REQUEST_FIRMWARE
+INT rt2860_load_firmware(IN RTMP_ADAPTER *pAd, IN const PCHAR fw_name, IN UINT32 fw_size)
+{
+	int ret;
+	const struct firmware *fw;
+	struct pci_dev *pci_dev;
+	POS_COOKIE cookie;
 
+	cookie = (POS_COOKIE)pAd->OS_Cookie;
+	pci_dev = cookie->pci_dev;
 
+	ret = request_firmware(&fw, (const char *)fw_name, &(pci_dev->dev));
+	if (ret < 0) {
+		DBGPRINT(RT_DEBUG_ERROR, ("request_firmware error(%d)\n", ret));
+		goto end;
+	}
+
+	if ((UINT32)fw->size != fw_size) {
+		DBGPRINT(RT_DEBUG_ERROR, ("illegal firmware size(%lu)\n", (unsigned long)fw->size));
+		ret = -ENODATA;
+		goto release;
+	}
+
+	RTMP_WRITE_FIRMWARE(pAd, fw->data, fw->size);
+release:
+	release_firmware(fw);
+end:
+	return (INT)ret;
+}
+#endif /* REQUEST_FIRMWARE */
 

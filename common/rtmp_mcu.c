@@ -28,8 +28,9 @@
 
 
 #include	"rt_config.h"
+#ifdef REQUEST_FIRMWARE
 #include 	"firmware.h"
-
+#endif /* REQUEST_FIRMWARE */
 
 
 /* New 8k byte firmware size for RT3071/RT3072*/
@@ -37,7 +38,19 @@
 #ifdef RT3290
 #define FIRMWAREIMAGE_3290_LENGTH	0x1000 /* 3290 firmware(4KB) */
 #endif/*RT3290*/
+
+#ifdef REQUEST_FIRMWARE
 #define FIRMWAREIMAGE_LENGTH			(sizeof (FirmwareImage) / sizeof(UCHAR))
+#else /* REQUEST_FIRMWARE */
+
+#ifdef RT3290
+#define FIRMWAREIMAGE_LENGTH FIRMWAREIMAGE_3290_LENGTH
+#else /* RT3290 */
+#define FIRMWAREIMAGE_LENGTH FIRMWAREIMAGE_MAX_LENGTH
+#endif /* RT3290 */
+
+#endif /* REQUEST_FIRMWARE */
+
 #define FIRMWARE_MAJOR_VERSION		0
 
 #define FIRMWAREIMAGEV1_LENGTH		0x1000
@@ -195,6 +208,31 @@ NDIS_STATUS isMCUnotReady(
 NDIS_STATUS RtmpAsicLoadFirmware(
 	IN PRTMP_ADAPTER pAd)
 {
+#ifdef REQUEST_FIRMWARE
+
+	INT				Ret;
+	NDIS_STATUS		Status = NDIS_STATUS_SUCCESS;
+
+	DBGPRINT(RT_DEBUG_TRACE, ("===> %s\n", __FUNCTION__));
+
+	Ret = rt2860_load_firmware(pAd, RTMP_3290_FIRMWARE_FILE_NAME, FIRMWAREIMAGE_LENGTH);
+	if (Ret < 0) {
+		DBGPRINT(RT_DEBUG_ERROR, ("Load firmware failed.\n"));
+		Status = NDIS_STATUS_FAILURE;
+		goto end;
+	}
+
+	if (isMCUnotReady(pAd)) {
+		DBGPRINT(RT_DEBUG_ERROR, ("NICLoadFirmware: MCU is not ready\n\n\n"));
+		Status = NDIS_STATUS_FAILURE;
+	}
+
+    DBGPRINT(RT_DEBUG_TRACE, ("<=== %s (status=%d)\n", __FUNCTION__, Status));
+end:
+    return Status;
+
+#else /* REQUEST_FIRMWARE */
+
 #ifdef BIN_IN_FILE
 #define NICLF_DEFAULT_USE()	\
 	flg_default_firm_use = TRUE; \
@@ -438,6 +476,7 @@ NDIS_STATUS RtmpAsicLoadFirmware(
     DBGPRINT(RT_DEBUG_TRACE, ("<=== %s (status=%d)\n", __FUNCTION__, Status));
 
     return Status;
+#endif /* REQUEST_FIRMWARE */
 }
 
 

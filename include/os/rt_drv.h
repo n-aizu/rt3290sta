@@ -70,7 +70,11 @@ typedef VOID	pregs;
 #endif /* CONFIG_STA_SUPPORT */
 
 #ifdef RT3290
+#ifdef REQUEST_FIRMWARE
+#define RTMP_3290_FIRMWARE_FILE_NAME		"rt3290.bin"
+#else /* REQUEST_FIRMWARE */
 #define RTMP_3290_FIRMWARE_FILE_NAME		"/lib/firmware/rt3290.bin"
+#endif /* REQUEST_FIRMWARE */
 #endif
 
 /***********************************************************************************

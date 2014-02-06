@@ -156,7 +156,11 @@
 #include "frq_cal.h"
 #endif /* RTMP_FREQ_CALIBRATION_SUPPORT */
 
-
+#ifdef REQUEST_FIRMWARE
+INT rt2860_load_firmware(IN RTMP_ADAPTER *pAd,
+						IN const PCHAR fw_name,
+						IN UINT32 fw_size);
+#endif
 
 #endif	/* __RT_CONFIG_H__ */
 
