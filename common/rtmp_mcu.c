@@ -28,7 +28,7 @@
 
 
 #include	"rt_config.h"
-#ifdef REQUEST_FIRMWARE
+#ifndef REQUEST_FIRMWARE
 #include 	"firmware.h"
 #endif /* REQUEST_FIRMWARE */
 
@@ -39,7 +39,7 @@
 #define FIRMWAREIMAGE_3290_LENGTH	0x1000 /* 3290 firmware(4KB) */
 #endif/*RT3290*/
 
-#ifdef REQUEST_FIRMWARE
+#ifndef REQUEST_FIRMWARE
 #define FIRMWAREIMAGE_LENGTH			(sizeof (FirmwareImage) / sizeof(UCHAR))
 #else /* REQUEST_FIRMWARE */
 
