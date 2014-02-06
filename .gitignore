@@ -19,3 +19,4 @@ GSYMS
 GTAGS
 
 tools/bin2h
+os/linux/Makefile
