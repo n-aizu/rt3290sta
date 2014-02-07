@@ -227,8 +227,8 @@ NDIS_STATUS RtmpAsicLoadFirmware(
 		Status = NDIS_STATUS_FAILURE;
 	}
 
-    DBGPRINT(RT_DEBUG_TRACE, ("<=== %s (status=%d)\n", __FUNCTION__, Status));
 end:
+    DBGPRINT(RT_DEBUG_TRACE, ("<=== %s (status=%d)\n", __FUNCTION__, Status));
     return Status;
 
 #else /* REQUEST_FIRMWARE */
