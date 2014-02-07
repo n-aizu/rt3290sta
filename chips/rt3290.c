@@ -1518,7 +1518,7 @@ VOID RT3290_AsicTxAlcGetAutoAgcOffset(
 			}
 			else if (RT3290_GetDesiredTssiAndCurrentTssi(pAd, &desiredTssi, &currentTssi) == FALSE)
 			{
-				DBGPRINT(RT_DEBUG_ERROR, ("%s: Incorrect desired TSSI or current TSSI\n", __FUNCTION__));
+				DBGPRINT(RT_DEBUG_TRACE, ("%s: Incorrect desired TSSI or current TSSI\n", __FUNCTION__));
 				
 				/* Tx power adjustment over RF */
 				RT30xxReadRFRegister(pAd, RF_R49, (PUCHAR)(&RFValue));
